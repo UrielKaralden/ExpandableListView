@@ -5,17 +5,15 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
              x:Class="ExpandableListView.Views.ExpandableList"
-             Title="ExpandableListView">
+             Title="ExpandableListView"
+             x:Name="P">
     <ContentPage.Content>
-        <ListView Grid.Row="1"  Margin="5,5,5,5"  Footer="" x:Name="MyListView"
-    GroupDisplayBinding="{Binding Title}"
-       HasUnevenRows="true"
-     SeparatorVisibility="None"
-    IsGroupingEnabled="true">
+        <ListView Margin="5,5,5,5" GroupDisplayBinding="{Binding Title}" ItemsSource="{Binding Data}"
+                  HasUnevenRows="true" SeparatorVisibility="None" IsGroupingEnabled="true">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
-                        <Frame  BorderColor="#e6e6e6" CornerRadius="0" HasShadow="false" Padding="10,10,10,10">
+                        <Frame BorderColor="#e6e6e6" CornerRadius="0" HasShadow="false" Padding="10,10,10,10">
                             <ScrollView>
                                 <StackLayout>
                                     <Label TextColor="#888888" VerticalTextAlignment="Start" Text="{Binding ItemName}"/>
@@ -28,23 +26,16 @@
             <ListView.GroupHeaderTemplate>
                 <DataTemplate>
                     <ViewCell Height="50">
-
-                        <Frame  HasShadow="false" BorderColor="#e6e6e6" CornerRadius="0" Padding="10,0,10,0" >
+                        <Frame HasShadow="false" BorderColor="#e6e6e6" CornerRadius="0" Padding="10,0,10,0" >
                             <StackLayout Orientation="Horizontal" VerticalOptions="EndAndExpand">
-                                <Label Text="{Binding Title}" 
-                    VerticalTextAlignment="Center"
-                     TextColor="#888888"
-                     VerticalOptions="CenterAndExpand"/>
-                                <Button HorizontalOptions="EndAndExpand" ImageSource="{Binding StateIcon}"
-                      VerticalOptions="CenterAndExpand"
-                      BackgroundColor="Transparent"
-                      BorderColor="Transparent"
-                      BorderWidth="0"
-                      Clicked="HeaderTapped" 
-                      CommandParameter="{Binding .}"/>
+                                <Label Text="{Binding Title}" VerticalTextAlignment="Center" TextColor="#888888" VerticalOptions="CenterAndExpand"/>
+                                <Image HorizontalOptions="EndAndExpand" Source="{Binding StateIcon}" VerticalOptions="CenterAndExpand" BackgroundColor="Transparent" >
+                                    <Image.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding Source={x:Reference P}, Path=BindingContext.ExpandCommand}" CommandParameter="{Binding .}" />
+                                    </Image.GestureRecognizers>
+                                </Image>
                             </StackLayout>
                         </Frame>
-
                     </ViewCell>
                 </DataTemplate>
             </ListView.GroupHeaderTemplate>
